@@ -34,4 +34,27 @@ data:extend({
         default_value = true,
         order = "a-e"
     },
+    {
+        type = "int-setting",
+        name = "belt-sanitizer-production-check-tick",
+        setting_type = "runtime-global",
+        default_value = 3600,
+        order = "a-f"
+    },
+    {
+        type = "string-setting",
+        name = "belt-sanitizer-production-items",
+        setting_type = "runtime-global",
+        default_value = "automation-science-pack,logistic-science-pack",
+        auto_trim = true,
+        order = "a-y"
+    },
+    {
+        type = "string-setting",
+        name = "belt-sanitizer-production-fluids",
+        setting_type = "runtime-global",
+        default_value = "water,crude-oil",
+        auto_trim = true,
+        order = "a-z"
+    },
 })
