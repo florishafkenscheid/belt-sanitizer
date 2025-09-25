@@ -217,7 +217,7 @@ end
 --------------------------------------------------------------------------------
 
 script.on_init(function()
-    storage.benchmark_target_tick = nil
+    script.on_event(defines.events.on_tick, on_first_tick)
 end)
 
 script.on_load(function()
