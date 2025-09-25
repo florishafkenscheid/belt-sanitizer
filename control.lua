@@ -14,7 +14,7 @@ local ITEM_QUALITIES = {
 --------------------------------------------------------------------------------
 
 local function g_bool(name, default)
-  local setting = settings.global[name]
+  local setting = settings.startup[name]
   if setting == nil then return default end
   return setting.value
 end
@@ -66,7 +66,7 @@ local function get_flow_precision_index(ticks)
 end
 
 local function get_check_tick()
-    return settings.global["belt-sanitizer-production-check-tick"].value
+    return settings.startup["belt-sanitizer-production-check-tick"].value
 end
 
 -- 2. Core Logic Functions
@@ -96,8 +96,8 @@ local function snapshot()
 end
 
 local function check_benchmark_production()
-    local item_list_str = settings.global["belt-sanitizer-production-items"].value
-    local fluid_list_str = settings.global["belt-sanitizer-production-fluids"].value
+    local item_list_str = settings.startup["belt-sanitizer-production-items"].value
+    local fluid_list_str = settings.startup["belt-sanitizer-production-fluids"].value
 
     local precision = get_flow_precision_index(get_check_tick())
     local force = game.forces["player"]
