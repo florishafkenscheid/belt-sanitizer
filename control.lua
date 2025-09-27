@@ -1,4 +1,3 @@
-local MOD_NAME = "belt-sanitizer"
 local OUTPUT_DIR = "belt"
 local OUTPUT_FILE = OUTPUT_DIR .. "/sanitizer.json"
 
@@ -179,7 +178,6 @@ local function run_once()
     local production_data = check_benchmark_production()
 
     local payload = {
-        mod = MOD_NAME,
         settings = {
             report_pollution = g_bool("belt-sanitizer-report-pollution", true),
             report_biters = g_bool("belt-sanitizer-report-biters", true),
@@ -206,8 +204,8 @@ end
 local function on_first_tick()
     local duration_ticks = get_check_tick()
 
-    log("Target tick: " .. game.tick + duration_ticks .. ". First tick: " .. game.tick)
-    storage.benchmark_target_tick = game.tick + duration_ticks
+    log("Target tick: " .. game.tick + duration_ticks - 1 .. ". First tick: " .. game.tick)
+    storage.benchmark_target_tick = game.tick + duration_ticks - 1
 
     script.on_event(defines.events.on_tick, nil)
     script.on_event(defines.events.on_tick, on_tick_handler)
