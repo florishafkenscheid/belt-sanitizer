@@ -42,7 +42,8 @@ local function write_json(payload)
     helpers.write_file(OUTPUT_FILE, data .. "\n", false)
 end
 
-local function get_flow_precision_index(ticks)
+local function get_flow_precision_index()
+    local ticks = settings.startup["belt-sanitizer-production-check-tick"].value
     -- Map flow duration in ticks to the corresponding defines.flow_precision_index
     local ONE_MINUTE_TICKS = 3600 -- 60 seconds * 60 ticks
     local ONE_HOUR_TICKS = 216000 -- 60 minutes * 3600 ticks
@@ -98,7 +99,7 @@ local function check_benchmark_production()
     local item_list_str = settings.startup["belt-sanitizer-production-items"].value
     local fluid_list_str = settings.startup["belt-sanitizer-production-fluids"].value
 
-    local precision = get_flow_precision_index(get_check_tick())
+    local precision = get_flow_precision_index()
     local force = game.forces["player"]
     local production_results = { input = { items = {}, fluids = {} }, output = { items = {}, fluids = {} } }
 
@@ -134,22 +135,20 @@ local function check_benchmark_production()
             local item_stats = force.get_item_production_statistics(surface)
             for _, item in ipairs(items) do
                 for _, quality in ipairs(ITEM_QUALITIES) do
-                    local count = item_stats.get_flow_count({
+                    local input_count = item_stats.get_flow_count({
                         name={name=item, quality=quality},
                         category="input",
                         precision_index=precision,
                         count=true
                     })
-                    production_results.input.items[item][quality] = production_results.input.items[item][quality] + count
-                end
-                for _, quality in ipairs(ITEM_QUALITIES) do
-                    local count = item_stats.get_flow_count({
+                    production_results.input.items[item][quality] = production_results.input.items[item][quality] + input_count
+                    local output_count = item_stats.get_flow_count({
                         name={name=item, quality=quality},
                         category="output",
                         precision_index=precision,
                         count=true
                     })
-                    production_results.output.items[item][quality] = production_results.output.items[item][quality] + count
+                    production_results.output.items[item][quality] = production_results.output.items[item][quality] + output_count
                 end
             end
             local fluid_stats = force.get_fluid_production_statistics(surface)
@@ -157,13 +156,15 @@ local function check_benchmark_production()
                 local input_count = fluid_stats.get_flow_count({
                     name = fluid,
                     category="input",
-                    precision_index=precision
+                    precision_index=precision,
+                    count=true
                 })
                 production_results.input.fluids[fluid] = production_results.input.fluids[fluid] + input_count
                 local output_count = fluid_stats.get_flow_count({
                     name = fluid,
                     category="output",
-                    precision_index=precision
+                    precision_index=precision,
+                    count=true
                 })
                 production_results.output.fluids[fluid] = production_results.output.fluids[fluid] + output_count
             end
