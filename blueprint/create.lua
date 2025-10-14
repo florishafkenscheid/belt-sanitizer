@@ -50,19 +50,26 @@ function create.draw_bp()
 		max_x = math.max(max_x, ent.position.x)
 	end
 	local bp_width = max_x - min_x
-	local spacing = 2
+	local spacing = 10
 	local x_offset = bp_width + spacing
 
 	bp_entity.destroy()
 
 	local copies = blueprint.copies or 1
+
+    local total_width = (copies * x_offset) + bp_width
+    local area_radius = math.ceil(math.max(total_width, 100) / 32) + 10
+
+    s.request_to_generate_chunks(spawn_pos, area_radius)
+    s.force_generate_chunk_requests()
+
+	force.chart(s, {
+        { spawn_pos.x - 100, spawn_pos.y - 100 },
+        { spawn_pos.x + total_width + 100, spawn_pos.y + 100 }
+	})
+
 	for copy_idx = 0, copies - 1 do
 		local copy_pos = { x = spawn_pos.x + (copy_idx * x_offset), y = spawn_pos.y }
-
-		force.chart(s, {
-			{ copy_pos.x - bp_width / 2 - 100, copy_pos.y - 100 },
-			{ copy_pos.x + bp_width / 2 + 100, copy_pos.y + 100 },
-		})
 
 		place_single_blueprint(s, f, copy_pos, blueprint, ents)
 	end
@@ -92,6 +99,7 @@ function place_single_blueprint(s, f, spawn_pos, blueprint, ents)
 		surface = s,
 		force = f,
 		position = spawn_pos,
+        skip_fog_of_war = false,
 		build_mode = defines.build_mode.superforced,
 	})
 
@@ -173,13 +181,25 @@ function place_single_blueprint(s, f, spawn_pos, blueprint, ents)
 
 	-- Rebuild for drills
 	afterSpawns = {}
-	local bp_ghost2 = bp_entity.stack.build_blueprint({
-		surface = s,
-		force = f,
-		position = spawn_pos,
-		force_build = true,
-	})
-	bp_entity.destroy()
+    local bp_ghost2 = nil
+
+    if not (bp_entity and bp_entity.valid) then
+        bp_entity = s.create_entity({ name = "item-on-ground", position = spawn_pos, stack = "blueprint" })
+        if bp_entity and bp_entity.valid and bp_entity.stack and bp_entity.stack.valid_for_read then
+		    bp_entity.stack.import_stack(blueprint.string)
+	    end
+    end
+
+    if bp_entity and bp_entity.valid then
+        bp_ghost2 = bp_entity.stack.build_blueprint({
+		    surface = s,
+		    force = f,
+		    position = spawn_pos,
+            skip_fog_of_war = false,
+            build_mode = defines.build_mode.superforced,
+	    })
+	    bp_entity.destroy()
+    end
 
 	if bp_ghost2 then
 		for _, entity in pairs(bp_ghost2) do
