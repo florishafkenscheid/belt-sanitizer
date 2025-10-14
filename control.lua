@@ -1,8 +1,8 @@
 local snapshot = require("sanitize.snapshot")
-local blueprint = require("blueprint.blueprint")
+local blueprint = require("blueprint.create")
 
 local function snapshot_on_tick_handler()
-	if game.tick == storage.benchmark_target_tick then
+	if game.tick == storage.target_tick then
 		snapshot.run_once()
 	end
 end
@@ -10,21 +10,24 @@ end
 local save_complete = false
 
 local function blueprint_on_tick_handler()
-	-- BP Needs: bp string, save_name?, amount of copies, bp.loaded
-	if not game.is_multiplayer() then
-		return
-	end
 	if not blueprint.loaded then
 		blueprint.create.draw_bp()
+		log("Blueprint loaded")
 		blueprint.loaded = true
+		game.speed = 100
 	end
-	if blueprint.loaded and not save_complete then
-		game.server_save(blueprint.save_name)
+	if blueprint.loaded and not save_complete and game.tick == storage.target_tick then
+		game.auto_save(blueprint.save_name)
+		log("Game saved at tick: " .. game.tick)
 		save_complete = true
 	end
 end
 
 local function on_first_tick()
+	local duration_ticks = settings.startup["belt-sanitizer-target-tick"].value
+	log("Target tick: " .. (game.tick + duration_ticks - 1) .. ". First tick: " .. game.tick)
+	storage.target_tick = game.tick + duration_ticks - 1
+
 	-- Decide mode from startup setting
 	local blueprint_mode = settings.startup["belt-sanitizer-blueprint-mode"]
 			and settings.startup["belt-sanitizer-blueprint-mode"].value
@@ -40,9 +43,6 @@ local function on_first_tick()
 	end
 
 	-- Snapshot mode: compute target tick and install snapshot handler
-	local duration_ticks = settings.startup["belt-sanitizer-production-check-tick"].value
-	log("Target tick: " .. (game.tick + duration_ticks - 1) .. ". First tick: " .. game.tick)
-	storage.benchmark_target_tick = game.tick + duration_ticks - 1
 	script.on_event(defines.events.on_tick, snapshot_on_tick_handler)
 end
 
@@ -56,5 +56,5 @@ script.on_load(function()
 end)
 
 script.on_configuration_changed(function(_)
-	storage.benchmark_target_tick = nil
+	storage.target_tick = nil
 end)

@@ -51,7 +51,7 @@ function utils.write_json(payload)
 end
 
 function utils.get_flow_precision_index()
-	local ticks = settings.startup["belt-sanitizer-production-check-tick"].value
+	local ticks = settings.startup["belt-sanitizer-target-tick"].value
 	-- Map flow duration in ticks to the corresponding defines.flow_precision_index
 	local ONE_MINUTE_TICKS = 3600 -- 60 seconds * 60 ticks
 	local ONE_HOUR_TICKS = 216000 -- 60 minutes * 3600 ticks
@@ -74,7 +74,7 @@ function utils.get_flow_precision_index()
 end
 
 function utils.get_check_tick()
-	return settings.startup["belt-sanitizer-production-check-tick"].value
+	return settings.startup["belt-sanitizer-target-tick"].value
 end
 
 return utils
