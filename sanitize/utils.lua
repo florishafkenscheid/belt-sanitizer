@@ -36,6 +36,16 @@ function utils.total_pollution()
 	return sum
 end
 
+function utils.get_active_cars(surface)
+    local out = {}
+    for _, e in pairs(surface.find_entities_filtered { type = "car" }) do
+        if e.valid and e.active then
+            out[#out+1] = e
+        end
+    end
+    return out
+end
+
 function utils.write_json(payload)
 	if not g_bool("belt-sanitizer-write-diagnostics", true) then
 		return
