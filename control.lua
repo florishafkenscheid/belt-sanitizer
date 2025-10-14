@@ -17,6 +17,7 @@ local function blueprint_on_tick_handler()
 		game.speed = 100
 	end
 	if blueprint.loaded and not save_complete and game.tick == storage.target_tick then
+        game.autosave_enabled = true
 		game.auto_save(blueprint.save_name)
 		log("Game saved at tick: " .. game.tick)
 		save_complete = true
@@ -37,6 +38,7 @@ local function on_first_tick()
 	script.on_event(defines.events.on_tick, nil)
 
 	if blueprint_mode then
+        game.autosave_enabled = false
 		-- Install blueprint-mode tick handler and return
 		script.on_event(defines.events.on_tick, blueprint_on_tick_handler)
 		return
