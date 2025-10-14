@@ -27,12 +27,19 @@ data:extend({
 		default_value = true,
 		order = "a-d",
 	},
+    {
+        type = "bool-setting",
+        name = "belt-sanitizer-report-active-cars",
+        setting_type = "startup",
+        default_value = true,
+        order = "a-e",
+    },
 	{
 		type = "bool-setting",
 		name = "belt-sanitizer-write-diagnostics",
 		setting_type = "startup",
 		default_value = true,
-		order = "a-e",
+		order = "a-x",
 	},
 	{
 		type = "string-setting",

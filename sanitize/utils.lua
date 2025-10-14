@@ -5,7 +5,7 @@ local utils = {}
 local OUTPUT_DIR = "belt"
 local OUTPUT_FILE = OUTPUT_DIR .. "/sanitizer.json"
 
-local ITEM_QUALITIES = {
+utils.ITEM_QUALITIES = {
 	"normal",
 	"uncommon",
 	"rare",
@@ -36,8 +36,18 @@ function utils.total_pollution()
 	return sum
 end
 
+function utils.get_active_cars(surface)
+    local n = 0
+    for _, e in pairs(surface.find_entities_filtered { type = "car" }) do
+        if e.valid and e.active then
+            n = n + 1
+        end
+    end
+    return n
+end
+
 function utils.write_json(payload)
-	if not g_bool("belt-sanitizer-write-diagnostics", true) then
+	if not utils.g_bool("belt-sanitizer-write-diagnostics", true) then
 		return
 	end
 	local ok, data = pcall(function()
