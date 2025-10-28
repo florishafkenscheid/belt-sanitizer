@@ -39,9 +39,9 @@ end
 function utils.get_active_entities(surface)
     local n = {}
     local entity_types = { "rocket-silo", "car", "tank" }
-    for type in entity_types do
+    for _, type in pairs(entity_types) do
         n[type] = n[type] or 0
-        for _, e in pairs(surface.find_entities_filtered { type }) do
+        for _, e in pairs(surface.find_entities_filtered { type = type }) do
             if e.valid and e.active then
                 n[type] = n[type] + 1
             end
