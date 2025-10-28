@@ -31,6 +31,46 @@ function utils.ensure_force_ready(force)
 	force.research_all_technologies()
 end
 
+function utils.calculate_grid_layout(ents, copies, spacing)
+	spacing = spacing or 10
+	copies = copies or 1
+
+	-- Calculate grid dimensions
+	local copies_per_row = math.ceil(math.sqrt(copies))
+	local rows = math.ceil(copies / copies_per_row)
+
+	-- Calculate blueprint dimensions
+	local min_x, max_x = math.huge, -math.huge
+	local min_y, max_y = math.huge, -math.huge
+
+	for _, ent in pairs(ents) do
+		min_x = math.min(min_x, ent.position.x)
+		max_x = math.max(max_x, ent.position.x)
+		min_y = math.min(min_y, ent.position.y)
+		max_y = math.max(max_y, ent.position.y)
+	end
+
+	local bp_width = max_x - min_x
+	local bp_height = max_y - min_y
+	local x_offset = bp_width + spacing
+	local y_offset = bp_height + spacing
+
+	local total_width = copies_per_row * x_offset
+	local total_height = rows * y_offset
+
+	return {
+		copies_per_row = copies_per_row,
+		rows = rows,
+		bp_width = bp_width,
+		bp_height = bp_height,
+		x_offset = x_offset,
+		y_offset = y_offset,
+		total_width = total_width,
+		total_height = total_height,
+		area_radius = math.ceil(math.max(total_width, total_height, 100) / 32) + 2
+	}
+end
+
 utils.resource_map = {
 	["efficiency-module"] = {
 		normal = "stone",

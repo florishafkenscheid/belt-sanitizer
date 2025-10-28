@@ -44,35 +44,33 @@ function create.draw_bp()
 		error("Blueprint has no entities")
 	end
 
-	local min_x, max_x = math.huge, -math.huge
-	for _, ent in pairs(ents) do
-		min_x = math.min(min_x, ent.position.x)
-		max_x = math.max(max_x, ent.position.x)
-	end
-	local bp_width = max_x - min_x
-	local spacing = 10
-	local x_offset = bp_width + spacing
-
 	bp_entity.destroy()
 
-	local copies = blueprint.copies or 1
+    local copies = blueprint.copies or 1
+    local layout = utils.calculate_grid_layout(ents, copies, 10)
 
-    local total_width = (copies * x_offset) + bp_width
-    local area_radius = math.ceil(math.max(total_width, 100) / 32) + 10
-
-    s.request_to_generate_chunks(spawn_pos, area_radius)
+    s.request_to_generate_chunks(spawn_pos, layout.area_radius)
     s.force_generate_chunk_requests()
 
 	force.chart(s, {
         { spawn_pos.x - 100, spawn_pos.y - 100 },
-        { spawn_pos.x + total_width + 100, spawn_pos.y + 100 }
+        { spawn_pos.x + layout.total_width + 100, spawn_pos.y + layout.total_height + 100 }
 	})
 
-	for copy_idx = 0, copies - 1 do
-		local copy_pos = { x = spawn_pos.x + (copy_idx * x_offset), y = spawn_pos.y }
+    local copy_idx = 0
+    for row = 0, layout.rows - 1 do
+        for col = 0, layout.copies_per_row - 1 do
+            if copy_idx < copies then
+                local copy_pos = {
+                    x = spawn_pos.x + (col * layout.x_offset),
+                    y = spawn_pos.y + (row * layout.y_offset)
+                }
 
-		place_single_blueprint(s, f, copy_pos, blueprint, ents)
-	end
+                place_single_blueprint(s, f, copy_pos, blueprint, ents)
+                copy_idx = copy_idx + 1
+            end
+        end
+    end
 
 	if blueprint.bot_count and blueprint.bot_count > 0 then
 		for _, roboport in pairs(s.find_entities_filtered({ type = "roboport", force = f })) do
