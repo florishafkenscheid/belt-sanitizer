@@ -36,11 +36,15 @@ function utils.total_pollution()
 	return sum
 end
 
-function utils.get_active_cars(surface)
-    local n = 0
-    for _, e in pairs(surface.find_entities_filtered { type = "car" }) do
-        if e.valid and e.active then
-            n = n + 1
+function utils.get_active_entities(surface)
+    local n = {}
+    local entity_types = { "rocket-silo", "car", "tank" }
+    for type in entity_types do
+        n[type] = n[type] or 0
+        for _, e in pairs(surface.find_entities_filtered { type }) do
+            if e.valid and e.active then
+                n[type] = n[type] + 1
+            end
         end
     end
     return n

@@ -14,7 +14,7 @@ local function create_snapshot()
 				enemy_units = utils.count_enemy(surface, "unit"),
 				enemy_spawners = utils.count_enemy(surface, "unit-spawner"),
 				enemy_worms = utils.count_enemy(surface, "turret"),
-                active_cars = utils.get_active_cars(surface)
+                active_entities = utils.get_active_entities(surface)
 			})
 		end
 	end
