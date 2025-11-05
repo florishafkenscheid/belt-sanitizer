@@ -25,6 +25,14 @@ function create.draw_bp()
 
 	local spawn_pos = utils.safe_spawn(s, 256)
 
+    -- Move player to not obstruct blueprint placement
+    local player_char = game.players[1] and game.players[1].character
+    if player_char and player_char.valid then
+        local safe_player_x = spawn_pos.x - 200
+        local safe_player_y = spawn_pos.y - 200
+        player_char.teleport({x = safe_player_x, y = safe_player_y}, s)
+    end
+
 	-- Get once to calculate dimensions
 	local bp_entity = s.create_entity({ name = "item-on-ground", position = spawn_pos, stack = "blueprint" })
 	if not (bp_entity and bp_entity.valid and bp_entity.stack and bp_entity.stack.valid_for_read) then
