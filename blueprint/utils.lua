@@ -18,6 +18,14 @@ function utils.get_copy_count()
 	return settings.startup["belt-sanitizer-blueprint-count"].value
 end
 
+function utils.get_mining_module_replacement()
+	return settings.startup["belt-sanitizer-mining-module-replacement"].value
+end
+
+function utils.get_mining_module_replacement_quality()
+	return settings.startup["belt-sanitizer-mining-module-replacement-quality"].value
+end
+
 function utils.safe_spawn(surface, radius)
 	local p = surface.find_non_colliding_position("character", { 0, 0 }, radius or 128, 0.5)
 	if not p then
@@ -84,6 +92,19 @@ utils.resource_map = {
 		uncommon = "tungsten-ore",
 		rare = "scrap",
 	},
+}
+
+utils.tile_resource_map = {
+	["stone-path"] = "stone",
+	["concrete"] = "iron-ore",
+	["hazard-concrete"] = "coal",
+	["refined-concrete"] = "copper-ore",
+	["refined-hazard-concrete"] = "scrap",
+}
+
+utils.mining_drills = {
+	["electric-mining-drill"] = true,
+	["big-mining-drill"] = true,
 }
 
 return utils

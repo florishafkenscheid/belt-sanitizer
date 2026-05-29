@@ -94,6 +94,22 @@ data:extend({
 		order = "b-e",
 	},
 	{
+		type = "string-setting",
+		name = "belt-sanitizer-mining-module-replacement",
+		setting_type = "startup",
+		default_value = "speed-module-3",
+		auto_trim = true,
+		order = "b-f",
+	},
+	{
+		type = "string-setting",
+		name = "belt-sanitizer-mining-module-replacement-quality",
+		setting_type = "startup",
+		default_value = "legendary",
+		auto_trim = true,
+		order = "b-g",
+	},
+	{
 		type = "int-setting",
 		name = "belt-sanitizer-target-tick",
 		setting_type = "startup",
