@@ -1,10 +1,10 @@
 {
   "name": "belt-sanitizer",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "title": "Belt Sanitizer",
   "author": "Floris Hafkenscheid",
   "homepage": "https://github.com/florishafkenscheid/belt-sanitizer",
   "description": "Outputs extra information when used in conjunction with the B.E.L.T. CLI tool.",
-  "factorio_version": "2.0",
-  "dependencies": ["base >= 2.0"]
+  "factorio_version": "2.1",
+  "dependencies": ["base >= 2.1"]
 }
