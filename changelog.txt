@@ -3,3 +3,96 @@ Version: 1.2.5
 Date: 2026-09-28
   Changes:
     - Compatible with Factorio 2.1
+---------------------------------------------------------------------------------------------------
+Version: 1.2.4
+Date: 2026-05-29
+  Changes:
+    - Add mining drill resource markers to blueprints
+    - Add English locale entries
+---------------------------------------------------------------------------------------------------
+Version: 1.2.3
+Date: 2026-02-04
+  Bugfixes:
+    - Raise the revive event when reviving entities
+---------------------------------------------------------------------------------------------------
+Version: 1.2.2
+Date: 2025-11-05
+  Bugfixes:
+    - Move the player to a safe location before placing a blueprint
+---------------------------------------------------------------------------------------------------
+Version: 1.2.1
+Date: 2025-10-28
+  Changes:
+    - Update the mod thumbnail
+  Bugfixes:
+    - Call find_filtered_entities correctly
+---------------------------------------------------------------------------------------------------
+Version: 1.2.0
+Date: 2025-10-28
+  Changes:
+    - Report a list of active entities instead of only cars
+---------------------------------------------------------------------------------------------------
+Version: 1.1.3
+Date: 2025-10-28
+  Changes:
+    - Place blueprints in a rectangular shape to reduce generated chunks
+---------------------------------------------------------------------------------------------------
+Version: 1.1.2
+Date: 2025-10-14
+  Bugfixes:
+    - Only autosave when requested by the program
+    - Replace the blueprint on the ground if it is deleted during blueprint placement
+---------------------------------------------------------------------------------------------------
+Version: 1.1.1
+Date: 2025-10-14
+  Changes:
+    - Return the active car count instead of the active entities
+---------------------------------------------------------------------------------------------------
+Version: 1.1.0
+Date: 2025-10-14
+  Changes:
+    - Report the number of active cars
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: 2025-10-14
+  Changes:
+    - Reorganize blueprint and sanitizing code into feature-specific modules
+    - Refactor the mod implementation
+---------------------------------------------------------------------------------------------------
+Version: 0.1.4
+Date: 2025-09-30
+  Changes:
+    - Simplify loops and tick checks
+---------------------------------------------------------------------------------------------------
+Version: 0.1.3
+Date: 2025-09-27
+  Bugfixes:
+    - Check production one tick earlier so output is not missed when the mod and belt ticks match
+---------------------------------------------------------------------------------------------------
+Version: 0.1.2
+Date: 2025-09-25
+  Changes:
+    - Start sanitizing during on_init as well as on_load
+---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 2025-09-25
+  Changes:
+    - Change sanitizer settings to startup settings
+---------------------------------------------------------------------------------------------------
+Version: 0.1.0
+Date: 2025-09-24
+  Changes:
+    - Output production statistics
+---------------------------------------------------------------------------------------------------
+Version: 0.0.2
+Date: 2025-09-23
+  Changes:
+    - Add sanitizer settings
+    - Optionally fix all belts when loading a save
+    - Add a mod thumbnail
+    - Replace periodic snapshots with a one-time snapshot
+---------------------------------------------------------------------------------------------------
+Version: 0.0.1
+Date: 2025-08-21
+  Changes:
+    - Initial release
