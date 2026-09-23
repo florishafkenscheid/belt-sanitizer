@@ -75,7 +75,7 @@ function utils.calculate_grid_layout(ents, copies, spacing)
 		y_offset = y_offset,
 		total_width = total_width,
 		total_height = total_height,
-		area_radius = math.ceil(math.max(total_width, total_height, 100) / 32) + 2
+		area_radius = math.ceil(math.max(total_width, total_height, 100) / 32) + 2,
 	}
 end
 
