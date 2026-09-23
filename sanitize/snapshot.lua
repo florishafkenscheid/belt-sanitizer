@@ -14,7 +14,8 @@ local function create_snapshot()
 				enemy_units = utils.count_enemy(surface, "unit"),
 				enemy_spawners = utils.count_enemy(surface, "unit-spawner"),
 				enemy_worms = utils.count_enemy(surface, "turret"),
-                active_entities = utils.get_active_entities(surface)
+				active_entities = utils.get_active_entities(surface),
+				infinity_entity_counts = utils.get_infinity_entity_counts(surface),
 			})
 		end
 	end
@@ -119,7 +120,8 @@ function snapshot.run_once()
 			peaceful_mode = utils.g_bool("belt-sanitizer-peaceful-mode", true),
 			report_expansion = utils.g_bool("belt-sanitizer-report-expansion", true),
 			freeze_daytime = utils.g_bool("belt-sanitizer-freeze-daytime", false),
-            report_active_cars = utils.g_bool("belt-sanitizer-report-active-cars", true),
+			report_active_cars = utils.g_bool("belt-sanitizer-report-active-cars", true),
+			report_infinity_entities = utils.g_bool("belt-sanitizer-report-infinity-entities", true),
 		},
 		snapshot = snap,
 		production_stats = production_data,

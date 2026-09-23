@@ -36,6 +36,13 @@ data:extend({
     },
 	{
 		type = "bool-setting",
+		name = "belt-sanitizer-report-infinity-entities",
+		setting_type = "startup",
+		default_value = true,
+		order = "a-f",
+	},
+	{
+		type = "bool-setting",
 		name = "belt-sanitizer-write-diagnostics",
 		setting_type = "startup",
 		default_value = true,

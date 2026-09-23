@@ -13,6 +13,14 @@ utils.ITEM_QUALITIES = {
 	"legendary",
 }
 
+local NATIVE_INFINITY_ENTITY_TYPES = {
+	["infinity-container"] = true,
+	["infinity-pipe"] = true,
+	["infinity-cargo-wagon"] = true,
+}
+
+local infinity_entity_names_by_type
+
 -- Functions
 function utils.g_bool(name, default)
 	local setting = settings.startup[name]
@@ -37,17 +45,44 @@ function utils.total_pollution()
 end
 
 function utils.get_active_entities(surface)
-    local n = {}
-    local entity_types = { "rocket-silo", "car", "tank" }
-    for _, type in pairs(entity_types) do
-        n[type] = n[type] or 0
-        for _, e in pairs(surface.find_entities_filtered { type = type }) do
-            if e.valid and e.active then
-                n[type] = n[type] + 1
-            end
-        end
-    end
-    return n
+	local n = {}
+	local entity_types = { "rocket-silo", "car", "tank" }
+	for _, type in pairs(entity_types) do
+		n[type] = n[type] or 0
+		for _, e in pairs(surface.find_entities_filtered({ type = type })) do
+			if e.valid and e.active then
+				n[type] = n[type] + 1
+			end
+		end
+	end
+	return n
+end
+
+function utils.get_infinity_entity_counts(surface)
+	if not infinity_entity_names_by_type then
+		infinity_entity_names_by_type = {}
+
+		for name, prototype in pairs(prototypes.entity) do
+			local is_editor_extensions = name:match("^ee%-infinity%-") ~= nil
+			if
+				(is_editor_extensions and not prototype.hidden)
+				or (not is_editor_extensions and NATIVE_INFINITY_ENTITY_TYPES[prototype.type])
+			then
+				local names = infinity_entity_names_by_type[prototype.type]
+				if not names then
+					names = {}
+					infinity_entity_names_by_type[prototype.type] = names
+				end
+				names[#names + 1] = name
+			end
+		end
+	end
+
+	local counts = {}
+	for prototype_type, names in pairs(infinity_entity_names_by_type) do
+		counts[prototype_type] = surface.count_entities_filtered({ name = names })
+	end
+	return counts
 end
 
 function utils.write_json(payload)
