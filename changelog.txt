@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.0.0
+Date: 2026-11-25
+  Major Features:
+    - Rewritten to take its jobs from the B.E.L.T. CLI 4.4 (interface 2) instead of mod settings; it does nothing without a job.
+  Changes:
+    - Stamped copies are placed on cleared ground, with drills on their marker ore, and every entity is checked; anything that can't be placed is reported.
+    - Mods that listen for script build and revive events see the stamped entities.
+    - Production and consumption totals cover exactly the sanitized ticks.
+    - Infinity entities include Editor Extensions' visible ee-infinity-* entities, counted by prototype type.
+---------------------------------------------------------------------------------------------------
 Version: 1.3.0
 Date: 2026-09-23
   Changes:
