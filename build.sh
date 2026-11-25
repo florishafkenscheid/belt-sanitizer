@@ -30,9 +30,9 @@ cp info.json "$MOD_DIR/"
 cp changelog.txt "$MOD_DIR/"
 cp thumbnail.png "$MOD_DIR/"
 cp control.lua "$MOD_DIR/"
-cp settings.lua "$MOD_DIR/"
-cp -r sanitize "$MOD_DIR/"
-cp -r blueprint "$MOD_DIR/"
+cp protocol.lua "$MOD_DIR/"
+cp sanitize.lua "$MOD_DIR/"
+cp -r stamp "$MOD_DIR/"
 cp -r locale "$MOD_DIR/"
 
 # Create the zip file
